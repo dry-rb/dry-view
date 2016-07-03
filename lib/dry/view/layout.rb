@@ -19,7 +19,7 @@ module Dry
       setting :root
       setting :name
       setting :template
-      setting :formats, { html: :erb }
+      setting :formats, { html: [:erb, :slim] }
       setting :scope
 
       attr_reader :config, :scope, :layout_dir, :layout_path, :template_path,
@@ -36,7 +36,7 @@ module Dry
       def self.renderers
         @renderers ||= Hash.new do |h, key|
           h[key.to_sym] = Renderer.new(
-            config.root, format: key, engine: config.formats[key.to_sym]
+            config.root, format: key, engines: config.formats[key.to_sym]
           )
         end
       end

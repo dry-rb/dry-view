@@ -5,7 +5,7 @@ RSpec.describe 'dry-view' do
         config.root = SPEC_ROOT.join('fixtures/templates')
         config.name = 'app'
         config.template = 'users'
-        config.formats = {html: :slim, txt: :erb}
+        config.formats = {html: [:erb, :slim], txt: :erb}
       end
     end
   end
@@ -37,6 +37,28 @@ RSpec.describe 'dry-view' do
 
     expect(view.(scope: scope, locals: { subtitle: 'Users List', users: users }, format: 'txt').strip).to eql(
       "# dry-view rocks!\n\n## Users List\n\n* Jane (jane@doe.org)\n* Joe (joe@doe.org)"
+    )
+  end
+
+  it 'renders a view with an alternative engine' do
+    erb_view_class = Class.new(Dry::View::Layout) do
+      configure do |config|
+        config.root = SPEC_ROOT.join('fixtures/templates')
+        config.name = 'app'
+        config.template = 'alternate_users'
+        config.formats = {html: [:erb, :slim], txt: :erb}
+      end
+    end
+    view = erb_view_class.new
+
+    users = [
+      { name: 'Jane', email: 'jane@doe.org' },
+      { name: 'Joe', email: 'joe@doe.org' }
+    ]
+
+    expect(view.(scope: scope, locals: { subtitle: "Users List", users: users }).to_s).to eql(
+      '<!DOCTYPE html><html><head><title>dry-view rocks!</title></head><body><h2>Users List</h2><div class="users"><table><tbody><tr><td>Jane</td><td>jane@doe.org</td></tr><tr><td>Joe</td><td>joe@doe.org</td></tr></tbody></table></div>
+</body></html>'
     )
   end
 

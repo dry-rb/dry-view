@@ -2,7 +2,7 @@ require 'dry/view/renderer'
 
 RSpec.describe Dry::View::Renderer do
   subject(:renderer) do
-    Dry::View::Renderer.new(SPEC_ROOT.join('fixtures/templates'), format: 'html', engine: :slim)
+    Dry::View::Renderer.new(SPEC_ROOT.join('fixtures/templates'), format: 'html', engines: :slim)
   end
 
   let(:scope) { double(:scope) }

@@ -4,11 +4,11 @@ require 'dry-equalizer'
 module Dry
   module View
     class Renderer
-      include Dry::Equalizer(:dir, :root, :engine)
+      include Dry::Equalizer(:dir, :root, :engines)
 
       TemplateNotFoundError = Class.new(StandardError)
 
-      attr_reader :dir, :root, :format, :engine, :tilts
+      attr_reader :dir, :root, :format, :engines, :tilts
 
       def self.tilts
         @__engines__ ||= {}
@@ -18,7 +18,7 @@ module Dry
         @dir = dir
         @root = options.fetch(:root, dir)
         @format = options[:format]
-        @engine = options[:engine]
+        @engines = Array(options[:engines])
         @tilts = self.class.tilts
       end
 
@@ -37,7 +37,7 @@ module Dry
       end
 
       def tilt(path)
-        tilts.fetch(path) { tilts[path] = Tilt[engine].new(path) }
+        tilts.fetch(path) { tilts[path] = Tilt.new(path) }
       end
 
       def lookup(name)
@@ -49,19 +49,19 @@ module Dry
       end
 
       def template?(name)
-        template_path = path(name)
+        paths(name).select do |template_path|
+          File.exist?(template_path.to_s)
+        end.first
+      end
 
-        if File.exist?(template_path)
-          template_path
+      def paths(name)
+        engines.map do |engine|
+          dir.join("#{name}.#{format}.#{engine}")
         end
       end
 
-      def path(name)
-        dir.join("#{name}.#{format}.#{engine}")
-      end
-
       def chdir(dirname)
-        self.class.new(dir.join(dirname), engine: engine, format: format, root: root)
+        self.class.new(dir.join(dirname), engines: engines, format: format, root: root)
       end
     end
   end
