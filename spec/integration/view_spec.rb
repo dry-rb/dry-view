@@ -49,7 +49,18 @@ RSpec.describe 'dry-view' do
         config.formats = {html: [:erb, :slim], txt: :erb}
       end
     end
+
     view = erb_view_class.new
+
+    users = [
+      { name: 'Jane', email: 'jane@doe.org' },
+      { name: 'Joe', email: 'joe@doe.org' }
+    ]
+
+    expect(view.(scope: scope, locals: { subtitle: "Users List", users: users }).to_s).to eql(
+      '<!DOCTYPE html><html><head><title>dry-view rocks!</title></head><body><h1>Users List</h1><div class="users"><table><tbody><tr><td>Jane</td><td>jane@doe.org</td></tr><tr><td>Joe</td><td>joe@doe.org</td></tr></tbody></table></div>
+</body></html>'
+    )
   end
 
   it 'renders a view with a template on another view path' do
