@@ -8,16 +8,15 @@ module Dry
 
       TemplateNotFoundError = Class.new(StandardError)
 
-      attr_reader :dir, :root, :format, :engines, :tilts
+      attr_reader :dir, :root, :format, :engines, :tilts, :paths
 
       def self.tilts
         @__engines__ ||= {}
       end
 
-      def initialize(dir, options = {})
-        @dir = dir
-        @root = options.fetch(:root, dir)
-        @format = options[:format]
+      def initialize(paths, options = {})
+        @paths = paths
+        @format = options.fetch(:format)
         @engines = Array(options[:engines])
         @tilts = self.class.tilts
       end
@@ -28,7 +27,8 @@ module Dry
         if path
           render(path, scope, &block)
         else
-          raise TemplateNotFoundError, "Template #{template} could not be looked up within #{root}"
+          msg = "Template #{template} could not be found in paths:\n#{paths.map { |pa| "- #{pa}" }.join("\n")}"
+          raise TemplateNotFoundError, msg
         end
       end
 
@@ -36,32 +36,26 @@ module Dry
         tilt(path).render(scope, &block)
       end
 
-      def tilt(path)
-        tilts.fetch(path) { tilts[path] = Tilt.new(path) }
+      def chdir(dirname)
+        new_paths = paths.map { |path| path.chdir(dirname) }
+
+        self.class.new(new_paths, engines: engines, format: format)
       end
 
       def lookup(name)
-        template?(name) || template?("shared/#{name}") || !root? && chdir('..').lookup(name)
-      end
-
-      def root?
-        dir == root
-      end
-
-      def template?(name)
-        paths(name).detect do |template_path|
-          File.exist?(template_path.to_s)
-        end
-      end
-
-      def paths(name)
         engines.map do |engine|
-          dir.join("#{name}.#{format}.#{engine}")
-        end
+          template_name = "#{name}.#{format}.#{engine}"
+
+          paths.inject(false) { |result, path|
+            result || path.lookup(template_name)
+          }
+        end.reject{|f| f == false}.first
       end
 
-      def chdir(dirname)
-        self.class.new(dir.join(dirname), engines: engines, format: format, root: root)
+      private
+
+      def tilt(path)
+        tilts.fetch(path) { tilts[path] = Tilt.new(path, nil, default_encoding: "utf-8") }
       end
     end
   end
