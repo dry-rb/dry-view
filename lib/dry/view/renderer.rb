@@ -49,9 +49,9 @@ module Dry
       end
 
       def template?(name)
-        paths(name).select do |template_path|
+        paths(name).detect do |template_path|
           File.exist?(template_path.to_s)
-        end.first
+        end
       end
 
       def paths(name)
