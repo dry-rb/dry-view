@@ -4,11 +4,11 @@ require 'dry-equalizer'
 module Dry
   module View
     class Renderer
-      include Dry::Equalizer(:dir, :root, :engines)
+      include Dry::Equalizer(:dir, :paths, :engines)
 
       TemplateNotFoundError = Class.new(StandardError)
 
-      attr_reader :dir, :root, :format, :engines, :tilts, :paths
+      attr_reader :dir, :paths, :format, :engines, :tilts
 
       def self.tilts
         @__engines__ ||= {}
