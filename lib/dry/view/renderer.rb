@@ -17,7 +17,7 @@ module Dry
       def initialize(paths, options = {})
         @paths = paths
         @format = options.fetch(:format)
-        @engines = Array(options[:engines])
+        @engines = Array(options.fetch(:engines))
         @tilts = self.class.tilts
       end
 
