@@ -43,13 +43,13 @@ module Dry
       end
 
       def lookup(name)
-        engines.map do |engine|
+        engines.inject(false) { |engine_result, engine|
           template_name = "#{name}.#{format}.#{engine}"
 
-          paths.inject(false) { |result, path|
+          engine_result || paths.inject(false) { |result, path|
             result || path.lookup(template_name)
           }
-        end.reject{|f| f == false}.first
+        }
       end
 
       private
