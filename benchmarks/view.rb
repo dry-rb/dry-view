@@ -12,7 +12,7 @@ class ActionRender
 end
 
 action_renderer = ActionRender.new
-rodakase_renderer = Dry::View::Renderer.new(Pathname(__FILE__).dirname.join('templates'), engine: :erb)
+rodakase_renderer = Dry::View::Renderer.new(Pathname(__FILE__).dirname.join('templates'), engines: :erb)
 
 template = rodakase_renderer.dir.join('button.erb')
 

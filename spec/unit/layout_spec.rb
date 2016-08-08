@@ -8,7 +8,7 @@ RSpec.describe Dry::View::Layout do
       config.paths = SPEC_ROOT.join('fixtures/templates')
       config.name = 'app'
       config.template = 'user'
-      config.formats = {html: :slim}
+      config.formats = {html: [:slim, :erb]}
     end
 
     klass
