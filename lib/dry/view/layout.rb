@@ -23,6 +23,7 @@ module Dry
       setting :template
       setting :formats, { html: :erb }
       setting :scope
+      setting :layout, true
 
       attr_reader :config, :scope, :layout_dir, :layout_path, :template_path,
         :default_format
@@ -65,16 +66,15 @@ module Dry
         @layout_path = "#{layout_dir}/#{config.name}"
         @template_path = config.template
         @scope = config.scope
+        @use_layout = config.layout
       end
 
       def call(options = {})
-        use_layout = options.fetch(:layout) { true }
-
         renderer = self.class.renderer(options.fetch(:format, default_format))
 
         template_content = renderer.(template_path, template_scope(options, renderer))
 
-        return template_content unless use_layout
+        return template_content unless @use_layout
 
         renderer.(layout_path, layout_scope(options, renderer)) do
           template_content
