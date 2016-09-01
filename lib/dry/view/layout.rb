@@ -68,9 +68,13 @@ module Dry
       end
 
       def call(options = {})
+        use_layout = options.fetch(:layout) { true }
+
         renderer = self.class.renderer(options.fetch(:format, default_format))
 
         template_content = renderer.(template_path, template_scope(options, renderer))
+
+        return template_content unless use_layout
 
         renderer.(layout_path, layout_scope(options, renderer)) do
           template_content

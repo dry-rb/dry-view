@@ -27,6 +27,19 @@ RSpec.describe 'dry-view' do
     )
   end
 
+  it 'renders without a layout when layout=false' do
+    view = view_class.new
+
+    users = [
+      { name: 'Jane', email: 'jane@doe.org' },
+      { name: 'Joe', email: 'joe@doe.org' }
+    ]
+
+    expect(view.(layout: false, locals: { subtitle: "Users List", users: users })).to eql(
+      '<h2>Users List</h2><div class="users"><table><tbody><tr><td>Jane</td><td>jane@doe.org</td></tr><tr><td>Joe</td><td>joe@doe.org</td></tr></tbody></table></div>'
+    )
+  end
+
   it 'renders a view with an alternative format and engine' do
     view = view_class.new
 
