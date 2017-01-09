@@ -15,14 +15,16 @@ RSpec.describe 'dry-view' do
   end
 
   it 'renders within a layout using provided scope' do
-    view = view_class.new
+    vc = view_class.new
 
     users = [
       { name: 'Jane', email: 'jane@doe.org' },
       { name: 'Joe', email: 'joe@doe.org' }
     ]
 
-    expect(view.(scope: scope, locals: { subtitle: "Users List", users: users })).to eql(
+    input = {scope: scope, locals: {subtitle: 'Users List', users: users}}
+
+    expect(vc.(input)).to eq(
       '<!DOCTYPE html><html><head><title>dry-view rocks!</title></head><body><h2>Users List</h2><div class="users"><table><tbody><tr><td>Jane</td><td>jane@doe.org</td></tr><tr><td>Joe</td><td>joe@doe.org</td></tr></tbody></table></div></body></html>'
     )
   end
@@ -39,7 +41,7 @@ RSpec.describe 'dry-view' do
       { name: 'Joe', email: 'joe@doe.org' }
     ]
 
-    expect(vc.(scope: scope, locals: { subtitle: "Users List", users: users })).to eql(
+    expect(vc.(scope: scope, locals: { subtitle: "Users List", users: users })).to eq(
       '<h2>Users List</h2><div class="users"><table><tbody><tr><td>Jane</td><td>jane@doe.org</td></tr><tr><td>Joe</td><td>joe@doe.org</td></tr></tbody></table></div>'
     )
   end
