@@ -15,6 +15,13 @@ module Dry
         @_context = context
       end
 
+      def render(name, *args, &block)
+        path = _renderer.lookup(_partial_name(name))
+        raise "template +#{path}+ not found" unless path
+
+        _renderer.render(path, _render_args(*args), &block)
+      end
+
       def respond_to_missing?(name, include_private = false)
         _template?(name) || _data.key?(name) || _context.respond_to?(name)
       end
@@ -26,19 +33,16 @@ module Dry
           _data[name]
         elsif _context.respond_to?(name)
           _context.public_send(name, *args, &block)
-        elsif (template_path = _template?(name))
-          _render(template_path, *args, &block)
         else
           super
         end
       end
 
-      def _template?(name)
-        _renderer.lookup("_#{name}")
-      end
+      def _partial_name(name)
+        parts = name.split("/")
+        parts[-1] = "_#{parts[-1]}"
 
-      def _render(path, *args, &block)
-        _renderer.render(path, _render_args(*args), &block)
+        parts.join("/")
       end
 
       def _render_args(*args)

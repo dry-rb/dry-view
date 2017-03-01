@@ -13,14 +13,6 @@ RSpec.describe Dry::View::Renderer do
       expect(renderer.('hello', scope)).to eql('<h1>Hello</h1>')
     end
 
-    it 'looks up shared template in current dir' do
-      expect(renderer.('_shared_hello', scope)).to eql('<h1>Hello</h1>')
-    end
-
-    it 'looks up shared template in upper dir' do
-      expect(renderer.chdir('greetings').('_shared_hello', scope)).to eql('<h1>Hello</h1>')
-    end
-
     it 'raises error when template was not found' do
       expect {
         renderer.('not_found', scope)
