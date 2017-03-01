@@ -92,11 +92,11 @@ module Dry
       end
 
       def layout_scope(renderer, context: config.context, **)
-        scope(renderer.chdir(layout_dir), EMPTY_LOCALS, context)
+        scope(renderer, EMPTY_LOCALS, context)
       end
 
       def template_scope(renderer, context: config.context, **input)
-        scope(renderer.chdir(template_path), locals(**input), context)
+        scope(renderer, locals(**input), context)
       end
 
       def scope(renderer, locals, context)

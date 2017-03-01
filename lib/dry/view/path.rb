@@ -13,7 +13,9 @@ module Dry
       end
 
       def lookup(name, format)
-        template?(name, format) || template?("shared/#{name}", format) || !root? && chdir('..').lookup(name, format)
+        # Search for a template using a wildcard for the engine extension
+        glob = dir.join("#{name}.#{format}.*")
+        Dir[glob].first
       end
 
       def chdir(dirname)
@@ -22,18 +24,6 @@ module Dry
 
       def to_s
         dir
-      end
-
-      private
-
-      def root?
-        dir == root
-      end
-
-      # Search for a template using a wildcard for the engine extension
-      def template?(name, format)
-        glob = dir.join("#{name}.#{format}.*")
-        Dir[glob].first
       end
     end
   end

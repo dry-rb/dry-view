@@ -78,20 +78,20 @@ RSpec.describe Dry::View::Scope do
       end
 
       it "renders a matching partial using the existing scope" do
-        scope.list
+        scope.render 'list'
 
         expect(renderer).to have_received(:render).with('_list.html.slim', scope)
       end
 
       it "renders a matching partial using a scope based on arguments passed" do
-        scope.list(something: 'else')
+        scope.render 'list', something: 'else'
 
         expect(renderer).to have_received(:render)
           .with('_list.html.slim', described_class.new(renderer, something: 'else'))
       end
 
       it "raises an error if arguments passed are not a hash" do
-        expect { scope.list('hi') }.to raise_error(ArgumentError)
+        expect { scope.render 'list', 'hi' }.to raise_error(ArgumentError)
       end
     end
   end
