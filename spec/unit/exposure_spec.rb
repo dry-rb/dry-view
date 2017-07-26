@@ -42,6 +42,17 @@ RSpec.describe Dry::View::Exposure do
         expect(described_class.new(:hello, private: true)).to be_private
       end
     end
+
+    describe "#default_value" do
+      it "is nil by default" do
+        expect(exposure.default_value).to be_nil
+      end
+
+      it "can be set on initialization" do
+        exposuse = described_class.new(:hello, default: 'Hi !')
+        expect(exposuse.default_value).to eq('Hi !')
+      end
+    end
   end
 
   describe "#bind" do
