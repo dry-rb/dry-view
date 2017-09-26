@@ -77,7 +77,7 @@ RSpec.describe Dry::View::Exposures do
     end
 
     it "returns value from proc" do
-      exposures.add(:name, -> input { input.fetch(:name).upcase }, default: 'John')
+      exposures.add(:name, -> name: { name.upcase }, default: 'John')
       locals = exposures.locals(name: 'William')
 
       expect(locals).to eq(:name=>"WILLIAM")
