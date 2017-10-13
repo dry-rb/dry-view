@@ -34,10 +34,7 @@ module Dry
 
       def locals(input)
         tsort.each_with_object({}) { |name, memo|
-          if exposures.key?(name)
-            value = self[name].(input, memo) || self[name].default_value
-            memo[name] = value
-          end
+          memo[name] = self[name].(input, memo) if exposures.key?(name)
         }.each_with_object({}) { |(name, val), memo|
           memo[name] = val unless self[name].private?
         }
