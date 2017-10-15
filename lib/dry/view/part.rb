@@ -1,5 +1,6 @@
 require 'dry-equalizer'
 require 'dry/view/scope'
+require 'dry/view/decorates'
 require 'dry/view/missing_renderer'
 
 module Dry
@@ -11,6 +12,14 @@ module Dry
         value
       ].freeze
 
+      def self.decorate(name, **options, &block)
+        decorates.add(name, options, block)
+      end
+
+      def self.decorates
+        @decorates ||= Decorates.new
+      end
+
       include Dry::Equalizer(:_name, :_value, :_context, :_renderer)
 
       attr_reader :_name
@@ -21,11 +30,14 @@ module Dry
 
       attr_reader :_renderer
 
-      def initialize(name:, value:, renderer: MissingRenderer.new, context: nil)
+      attr_reader :_decorated_childs
+
+      def initialize(name:, value:, renderer: MissingRenderer.new, context: nil, decorated_childs: {})
         @_name = name
         @_value = value
         @_context = context
         @_renderer = renderer
+        @_decorated_childs = decorated_childs
       end
 
       def _render(partial_name, as: _name, **locals, &block)
@@ -43,7 +55,9 @@ module Dry
       private
 
       def method_missing(name, *args, &block)
-        if _value.respond_to?(name)
+        if _decorated_childs.key?(name)
+          _decorated_childs[name]
+        elsif _value.respond_to?(name)
           _value.public_send(name, *args, &block)
         elsif CONVENIENCE_METHODS.include?(name)
           __send__(:"_#{name}", *args, &block)
