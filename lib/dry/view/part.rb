@@ -1,5 +1,6 @@
 require 'dry-equalizer'
 require 'dry/view/scope'
+require 'dry/view/decorated_collections'
 require 'dry/view/missing_renderer'
 
 module Dry
@@ -10,6 +11,14 @@ module Dry
         render
         value
       ].freeze
+
+      def self.decorate(name, **options, &block)
+        decorated_collections.add(name, options, block)
+      end
+
+      def self.decorated_collections
+        @decorated_collection ||= DecoratedCollections.new
+      end
 
       include Dry::Equalizer(:_name, :_value, :_context, :_renderer)
 

@@ -12,6 +12,19 @@ RSpec.describe 'decorator' do
           (_value * 2).each(&block)
         end
       end
+
+      class Product < Struct.new(:name)
+      end
+
+      class ProductPart < Dry::View::Part
+        def to_s
+          "Custom product part wrapping #{_value.name}"
+        end
+      end
+
+      class CustomProductsCollection < Dry::View::Part
+        decorate :products, as: ProductPart
+      end
     end
   end
 
@@ -74,6 +87,24 @@ RSpec.describe 'decorator' do
 
       expect(vc.(customs: ['many things'], custom: 'custom thing', ordinary: 'ordinary thing')).to eql(
         '<p>Custom part wrapping many things</p><p>Custom part wrapping custom thing</p><p>ordinary thing</p>'
+      )
+    end
+  end
+
+  context 'Decorated collection' do
+    it 'supports wrapping children as part object' do
+      vc = Class.new(Dry::View::Controller) do
+        configure do |config|
+          config.paths = SPEC_ROOT.join('fixtures/templates')
+          config.layout = nil
+          config.template = 'decorated_parts_product_children'
+        end
+
+        expose :products, as: Test::CustomProductsCollection
+      end.new
+
+      expect(vc.(products: [Test::Product.new('test_1'), Test::Product.new('test_2')])).to eql(
+        '<p>Custom product part wrapping test_1</p><p>Custom product part wrapping test_2</p>'
       )
     end
   end
