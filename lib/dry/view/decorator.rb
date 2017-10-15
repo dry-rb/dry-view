@@ -11,19 +11,17 @@ module Dry
         klass = part_class(name, value, options)
 
         if value.respond_to?(:to_ary)
-          if collection_decorator = klass.decorated_collections[name]
-            decorated_collection = collection_decorator.(value, renderer, context)
-            klass.new(name: name, value: decorated_collection, renderer: renderer, context: context)
-          else
-            singular_name = Dry::Core::Inflector.singularize(name).to_sym
-            singular_options = singularize_options(options)
+          result = if collection_decorator = klass.decorated_collections[name]
+                     collection_decorator.(value, renderer, context)
+                   else
+                     singular_name = Dry::Core::Inflector.singularize(name).to_sym
+                     singular_options = singularize_options(options)
 
-            arr = value.to_ary.map { |obj|
-              call(singular_name, obj, renderer: renderer, context: context, **singular_options)
-            }
-
-            klass.new(name: name, value: arr, renderer: renderer, context: context)
-          end
+                     value.to_ary.map { |obj|
+                       call(singular_name, obj, renderer: renderer, context: context, **singular_options)
+                     }
+                   end
+          klass.new(name: name, value: result, renderer: renderer, context: context)
         else
           klass.new(name: name, value: value, renderer: renderer, context: context)
         end
