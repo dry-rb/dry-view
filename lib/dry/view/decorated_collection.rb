@@ -11,8 +11,8 @@ module Dry
 
       def call(value, renderer, context)
         singular_name = singular_name(name)
-        value.to_ary.map do |obj|
-          part_class.new(name: singular_name, value: obj, renderer: renderer, context: context)
+        value.to_ary.map do |val|
+          part_class.new(name: singular_name, value: val, renderer: renderer, context: context)
         end
       end
 
