@@ -30,14 +30,14 @@ module Dry
 
       attr_reader :_renderer
 
-      attr_reader :_decorated_childs
+      attr_reader :_decorated_children
 
-      def initialize(name:, value:, renderer: MissingRenderer.new, context: nil, decorated_childs: {})
+      def initialize(name:, value:, renderer: MissingRenderer.new, context: nil, decorated_children: {})
         @_name = name
         @_value = value
         @_context = context
         @_renderer = renderer
-        @_decorated_childs = decorated_childs
+        @_decorated_children = decorated_children
       end
 
       def _render(partial_name, as: _name, **locals, &block)
@@ -55,8 +55,8 @@ module Dry
       private
 
       def method_missing(name, *args, &block)
-        if _decorated_childs.key?(name)
-          _decorated_childs[name]
+        if _decorated_children.key?(name)
+          _decorated_children[name]
         elsif _value.respond_to?(name)
           _value.public_send(name, *args, &block)
         elsif CONVENIENCE_METHODS.include?(name)

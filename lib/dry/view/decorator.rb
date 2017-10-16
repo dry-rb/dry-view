@@ -11,7 +11,7 @@ module Dry
       def call(name, value, renderer:, context:, **options)
         klass = part_class(name, value, options)
 
-        decorated_childs = if klass.decorates.any?
+        decorated_children = if klass.decorates.any?
                              DecoratesResolver.call(klass, value, renderer, context)
                            else
                              {}
@@ -25,9 +25,9 @@ module Dry
             call(singular_name, obj, renderer: renderer, context: context, **singular_options)
           }
 
-          klass.new(name: name, value: arr, renderer: renderer, context: context, decorated_childs: decorated_childs)
+          klass.new(name: name, value: arr, renderer: renderer, context: context, decorated_children: decorated_children)
         else
-          klass.new(name: name, value: value, renderer: renderer, context: context, decorated_childs: decorated_childs)
+          klass.new(name: name, value: value, renderer: renderer, context: context, decorated_children: decorated_children)
         end
       end
 
