@@ -17,13 +17,11 @@ module Dry
         decorates.any?
       end
 
-      def each
-        decorates.each do |key, decorate|
-          yield(key, decorate)
-        end
+      def each(&block)
+        decorates.each(&block)
       end
 
-      def add(name, options, block)
+      def add(name, options = {}, block = nil)
         decorates[name] = Decorate.new(name, options, block)
       end
     end
