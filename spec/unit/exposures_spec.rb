@@ -76,6 +76,13 @@ RSpec.describe Dry::View::Exposures do
       expect(locals).to eq(:name=>"William")
     end
 
+    it "returns values from arguments even when value is nil" do
+      exposures.add(:name, default: 'John')
+      locals = exposures.locals(name: nil)
+
+      expect(locals).to eq(:name=>nil)
+    end
+
     it "returns value from proc" do
       exposures.add(:name, -> name: { name.upcase }, default: 'John')
       locals = exposures.locals(name: 'William')

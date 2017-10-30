@@ -53,12 +53,11 @@ module Dry
       end
 
       def call(input, locals = {})
-        value = if proc
-                  call_proc(input, locals)
-                else
-                  input[name]
-                end
-        value || default_value
+        if proc
+          call_proc(input, locals)
+        else
+          input.fetch(name) { default_value }
+        end
       end
 
       private

@@ -129,6 +129,23 @@ RSpec.describe 'exposures' do
     )
   end
 
+  it 'having default values but passing nil as value for exposure' do
+    vc = Class.new(Dry::View::Controller) do
+      configure do |config|
+        config.paths = SPEC_ROOT.join('fixtures/templates')
+        config.layout = 'app'
+        config.template = 'greeting'
+        config.default_format = :html
+      end
+
+      expose :greeting, default: 'Hello Dry-rb'
+    end.new
+
+    expect(vc.(greeting: nil, context: context)).to eql(
+      '<!DOCTYPE html><html><head><title>dry-view rocks!</title></head><body><p></p></body></html>'
+    )
+  end
+
   it 'allows exposures to depend on each other' do
     vc = Class.new(Dry::View::Controller) do
       configure do |config|
