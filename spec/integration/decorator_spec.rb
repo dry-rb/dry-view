@@ -12,6 +12,27 @@ RSpec.describe 'decorator' do
           (_value * 2).each(&block)
         end
       end
+
+      class Product < Struct.new(:name, :tags, :prices)
+      end
+
+      class PricePart < Dry::View::Part
+        def to_s
+          "Custom price part wrapping #{_value}"
+        end
+      end
+
+      class TagPart < Dry::View::Part
+        decorate :prices, as: PricePart
+
+        def to_s
+          "Custom tag part wrapping #{_value}"
+        end
+      end
+
+      class CustomProductsCollection < Dry::View::Part
+        decorate :tags, as: TagPart
+      end
     end
   end
 
@@ -74,6 +95,56 @@ RSpec.describe 'decorator' do
 
       expect(vc.(customs: ['many things'], custom: 'custom thing', ordinary: 'ordinary thing')).to eql(
         '<p>Custom part wrapping many things</p><p>Custom part wrapping custom thing</p><p>ordinary thing</p>'
+      )
+    end
+  end
+
+  context 'Decorated collection' do
+    it 'supports wrapping children as part object when children is an array' do
+      vc = Class.new(Dry::View::Controller) do
+        configure do |config|
+          config.paths = SPEC_ROOT.join('fixtures/templates')
+          config.layout = nil
+          config.template = 'decorated_parts_product_children'
+        end
+
+        expose :product, as: Test::CustomProductsCollection
+      end.new
+
+      expect(vc.(product: Test::Product.new('test_1', ['hello', 'world']))).to eql(
+        '<p>Custom tag part wrapping hello</p><p>Custom tag part wrapping world</p>'
+      )
+    end
+
+    it 'supports wrapping children as part object when children is not an array' do
+      vc = Class.new(Dry::View::Controller) do
+        configure do |config|
+          config.paths = SPEC_ROOT.join('fixtures/templates')
+          config.layout = nil
+          config.template = 'decorated_parts_product_children_non_array'
+        end
+
+        expose :product, as: Test::CustomProductsCollection
+      end.new
+
+      expect(vc.(product: Test::Product.new('test_1', 'hello'))).to eql(
+        '<p>Custom tag part wrapping hello</p>'
+      )
+    end
+
+    it 'supports nested wrapping children as part object' do
+      vc = Class.new(Dry::View::Controller) do
+        configure do |config|
+          config.paths = SPEC_ROOT.join('fixtures/templates')
+          config.layout = nil
+          config.template = 'decorated_parts_product_children_with_prices'
+        end
+
+        expose :product, as: Test::CustomProductsCollection
+      end.new
+
+      expect(vc.(product: Test::Product.new('test_1', ['hello', 'world'], [123, 345]))).to eql(
+        '<p>Custom tag part wrapping hello</p><p>Custom tag part wrapping world</p><p>Custom price part wrapping 123</p><p>Custom price part wrapping 345</p>'
       )
     end
   end
