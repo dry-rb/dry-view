@@ -1,5 +1,17 @@
+require "dry/view/context"
+
 RSpec.describe 'exposures' do
-  let(:context) { Struct.new(:title, :assets).new('dry-view rocks!', -> input { "#{input}.jpg" }) }
+  let(:context) {
+    Class.new(Dry::View::Context) do
+      def title
+        'dry-view rocks!'
+      end
+
+      def assets
+        -> input { "#{input}.jpg" }
+      end
+    end.new
+  }
 
   it 'uses exposures with blocks to build view locals' do
     vc = Class.new(Dry::View::Controller) do

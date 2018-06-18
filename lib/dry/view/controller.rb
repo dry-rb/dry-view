@@ -3,6 +3,7 @@ require 'dry-equalizer'
 
 require 'dry/view/path'
 require 'dry/view/exposures'
+require 'dry/view/context'
 require 'dry/view/renderer'
 require 'dry/view/decorator'
 require 'dry/view/scope'
@@ -13,7 +14,7 @@ module Dry
       UndefinedTemplateError = Class.new(StandardError)
 
       DEFAULT_LAYOUTS_DIR = 'layouts'.freeze
-      DEFAULT_CONTEXT = Object.new.freeze
+      DEFAULT_CONTEXT = Class.new(Context).new.freeze
       EMPTY_LOCALS = {}.freeze
 
       include Dry::Equalizer(:config)
@@ -47,7 +48,7 @@ module Dry
       end
 
       # @api private
-      def self.renderer(format)
+      def self.renderer(format = config.default_format)
         renderers.fetch(format) {
           renderers[format] = Renderer.new(paths, format: format)
         }
@@ -123,10 +124,15 @@ module Dry
       end
 
       def scope(renderer, context, locals = EMPTY_LOCALS)
+        # WIP - we're not doing anything with `renderer` here! This is what's causing the problems.
+
+        # I wonder if we could merge scope/context...?
+
+        context = context.for_rendering(renderer: renderer, decorator: self.class.config.decorator) # maybe allow this to be provided to `#call` too?
+
         Scope.new(
-          renderer: renderer,
           context: context,
-          locals: decorated_locals(renderer, context, locals)
+          locals: decorated_locals(renderer, context, locals),
         )
       end
 
@@ -141,7 +147,6 @@ module Dry
             val = decorator.(
               key,
               val,
-              renderer: renderer,
               context: context,
               **options
             )

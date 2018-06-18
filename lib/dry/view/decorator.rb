@@ -7,7 +7,7 @@ module Dry
       attr_reader :config
 
       # @api public
-      def call(name, value, renderer:, context:, **options)
+      def call(name, value, context:, **options)
         klass = part_class(name, value, options)
 
         if value.respond_to?(:to_ary)
@@ -15,12 +15,12 @@ module Dry
           singular_options = singularize_options(options)
 
           arr = value.to_ary.map { |obj|
-            call(singular_name, obj, renderer: renderer, context: context, **singular_options)
+            call(singular_name, obj, context: context, **singular_options)
           }
 
-          klass.new(name: name, value: arr, decorator: self, renderer: renderer, context: context)
+          klass.new(name: name, value: arr, context: context)
         else
-          klass.new(name: name, value: value, decorator: self, renderer: renderer, context: context)
+          klass.new(name: name, value: value, context: context)
         end
       end
 

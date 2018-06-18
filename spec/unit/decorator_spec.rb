@@ -8,7 +8,7 @@ RSpec.describe Dry::View::Decorator do
     let(:options) { {} }
 
     describe 'returning a part value' do
-      subject(:part) { decorator.('user', value, renderer: renderer, context: context, **options) }
+      subject(:part) { decorator.('user', value, context: context, **options) }
 
       context 'no options provided' do
         it 'returns a Part' do

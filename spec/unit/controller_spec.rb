@@ -9,12 +9,16 @@ RSpec.describe Dry::View::Controller do
     end.new
   }
 
-  let(:page) do
-    double(:page, title: 'Test')
-  end
+  let(:context) {
+    Class.new(Dry::View::Context) do
+      def title
+        'Test'
+      end
+    end.new
+  }
 
   let(:options) do
-    { context: page, locals: { user: { name: 'Jane' }, header: { title: 'User' } } }
+    { context: context, locals: { user: { name: 'Jane' }, header: { title: 'User' } } }
   end
 
   describe '#call' do

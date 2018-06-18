@@ -3,20 +3,18 @@ require 'dry-equalizer'
 module Dry
   module View
     class Scope
-      include Dry::Equalizer(:_locals, :_context, :_renderer)
+      include Dry::Equalizer(:_locals, :_context)
 
       attr_reader :_locals
       attr_reader :_context
-      attr_reader :_renderer
 
-      def initialize(renderer:, context: nil, locals: {})
+      def initialize(context:, locals: {})
         @_locals = locals
         @_context = context
-        @_renderer = renderer
       end
 
       def render(partial_name, **locals, &block)
-        _renderer.partial(partial_name, __render_scope(locals), &block)
+        _context._renderer.partial(partial_name, __render_scope(locals), &block)
       end
 
       private
@@ -33,7 +31,7 @@ module Dry
 
       def __render_scope(**locals)
         if locals.any?
-          self.class.new(renderer: _renderer, context: _context, locals: locals)
+          self.class.new(context: _context, locals: locals)
         else
           self
         end

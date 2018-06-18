@@ -46,11 +46,17 @@ RSpec.describe 'Part / Decorated attributes' do
     )
   }
 
+  let(:decorator) { Dry::View::Decorator.new }
+  let(:renderer) { Dry::View::MissingRenderer.new }
+
+  let(:context) { Class.new(Dry::View::Context).new.for_rendering(decorator: decorator, renderer: renderer) }
+
   describe 'using default decorator' do
     subject(:article_part) {
       article_part_class.new(
         name: :article,
         value: article,
+        context: context,
       )
     }
 
@@ -144,7 +150,7 @@ RSpec.describe 'Part / Decorated attributes' do
       article_part_class.new(
         name: :article,
         value: article,
-        decorator: decorator,
+        context: context,
       )
     }
 

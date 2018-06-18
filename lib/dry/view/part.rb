@@ -11,17 +11,13 @@ module Dry
         value
       ].freeze
 
-      include Dry::Equalizer(:_name, :_value, :_decorator, :_context, :_renderer)
+      include Dry::Equalizer(:_name, :_value, :_context)
 
       attr_reader :_name
 
       attr_reader :_value
 
       attr_reader :_context
-
-      attr_reader :_renderer
-
-      attr_reader :_decorator
 
       attr_reader :_decorated_attributes
 
@@ -38,17 +34,15 @@ module Dry
       end
 
       # FIXME: does MissingRenderer.new lead to needless allocations of MissingRenderer? We only need one globally.
-      def initialize(name:, value:, decorator: Dry::View::Decorator.new, renderer: MissingRenderer.new, context: nil)
+      def initialize(name:, value:, context: nil)
         @_name = name
         @_value = value
         @_context = context
-        @_renderer = renderer
-        @_decorator = decorator
         @_decorated_attributes = {}
       end
 
       def _render(partial_name, as: _name, **locals, &block)
-        _renderer.partial(partial_name, _render_scope(as, locals), &block)
+        _context._renderer.partial(partial_name, _render_scope(as, locals), &block)
       end
 
       def to_s
@@ -60,8 +54,6 @@ module Dry
           name: name,
           value: value,
           context: _context,
-          renderer: _renderer,
-          decorator: _decorator,
           **options,
         )
       end
@@ -84,7 +76,6 @@ module Dry
         Scope.new(
           locals: locals.merge(name => self),
           context: _context,
-          renderer: _renderer,
         )
       end
 
@@ -94,10 +85,9 @@ module Dry
 
           _decorated_attributes[name] =
             if attribute # Decorate truthy attributes only
-              _decorator.(
+              _context._decorator.(
                 name,
                 attribute,
-                renderer: _renderer,
                 context: _context,
                 **self.class.decorated_attributes[name],
               )

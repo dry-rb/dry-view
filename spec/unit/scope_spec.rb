@@ -1,8 +1,8 @@
 RSpec.describe Dry::View::Scope do
-  subject(:scope) { described_class.new(renderer: renderer, context: context, locals: locals) }
+  subject(:scope) { described_class.new(context: context, locals: locals) }
 
   let(:locals) { {} }
-  let(:context) { double(:context) }
+  let(:context) { Dry::View::Context.new.for_rendering(renderer: renderer, decorator: double(:decorator)) }
   let(:renderer) { spy(:renderer) }
 
   describe '#render' do
@@ -12,7 +12,7 @@ RSpec.describe Dry::View::Scope do
     end
 
     it 'renders a partial with provided locals' do
-      scope_with_locals = described_class.new(renderer: renderer, context: context, locals: {foo: 'bar'})
+      scope_with_locals = described_class.new(context: context, locals: {foo: 'bar'})
 
       scope.render(:info, foo: 'bar')
       expect(renderer).to have_received(:partial).with(:info, scope_with_locals)
