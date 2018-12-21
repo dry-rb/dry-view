@@ -35,6 +35,8 @@ RSpec.configure do |config|
 
   config.after do
     Test.remove_constants
+    Dry::View::Path.reset_cache
+    Dry::View::PartBuilder.reset_cache
   end
 end
 

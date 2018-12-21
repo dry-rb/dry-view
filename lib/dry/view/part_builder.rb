@@ -1,10 +1,12 @@
 require 'dry/equalizer'
 require_relative 'part'
+require_relative 'helpers/caching'
 
 module Dry
   module View
     class PartBuilder
       include Dry::Equalizer(:namespace)
+      include Helpers::Caching
 
       attr_reader :namespace
       attr_reader :rendering
@@ -25,9 +27,12 @@ module Dry
       end
 
       def call(name, value, **options)
-        builder = value.respond_to?(:to_ary) ? :build_collection_part : :build_part
+        unique_key = "#{hash}.#{name}.#{value.hash}.#{options.hash}"
+        self.class.fetch_from_cache_or_store(unique_key) do
+          builder = value.respond_to?(:to_ary) ? :build_collection_part : :build_part
 
-        send(builder, name, value, **options)
+          send(builder, name, value, **options)
+        end
       end
 
       private

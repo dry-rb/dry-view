@@ -1,21 +1,13 @@
 require "pathname"
+require_relative 'helpers/caching'
 
 module Dry
   module View
     class Path
       include Dry::Equalizer(:dir, :root)
+      include Helpers::Caching
 
       attr_reader :dir, :root
-
-      def self.cached_templates
-        @cached_templates ||= {}
-      end
-
-      def self.fetch_from_cache_or_store(key)
-        cached_templates.fetch(key) do
-          cached_templates[key] = yield
-        end
-      end
 
       def initialize(dir, options = {})
         @dir = Pathname(dir)
