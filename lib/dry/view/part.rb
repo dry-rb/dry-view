@@ -52,7 +52,7 @@ module Dry
         _value.to_s
       end
 
-      def new(klass = (self.class), name: (_name), value: (_value), **options)
+      def new(klass = (self.class), name: (self.class.name), value: (_value), **options)
         klass.new(
           name: name,
           value: value,
