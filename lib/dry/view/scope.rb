@@ -28,13 +28,17 @@ module Dry
         _rendering.scope(name, locals)
       end
 
+      def context
+        _rendering.context
+      end
+
       private
 
       def method_missing(name, *args, &block)
         if _locals.key?(name)
           _locals[name]
-        elsif _rendering.context.respond_to?(name)
-          _rendering.context.public_send(name, *args, &block)
+        elsif context.respond_to?(name)
+          context.public_send(name, *args, &block)
         else
           super
         end

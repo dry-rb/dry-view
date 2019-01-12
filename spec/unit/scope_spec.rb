@@ -30,6 +30,12 @@ RSpec.describe Dry::View::Scope do
     end
   end
 
+  describe '#context' do
+    it 'returns rendering context' do
+      expect(scope.context).to eq(context)
+    end
+  end
+
   describe '#method_missing' do
     context 'matching locals' do
       let(:locals) { {greeting: 'hello from locals'} }
