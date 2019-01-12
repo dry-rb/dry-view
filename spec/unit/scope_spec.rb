@@ -32,7 +32,7 @@ RSpec.describe Dry::View::Scope do
 
   describe '#context' do
     it 'returns rendering context' do
-      expect(scope.context).to eq(context)
+expect(scope.context).to be(context)
     end
   end
 
