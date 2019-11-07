@@ -333,10 +333,10 @@ module Hanami
     # @api public
     def self.expose(*names, **options, &block)
       if names.length == 1
-        exposures.add(names.first, block, options)
+        exposures.add(names.first, block, **options)
       else
         names.each do |name|
-          exposures.add(name, options)
+          exposures.add(name, **options)
         end
       end
     end
