@@ -17,7 +17,7 @@
 - Stop searching in `shared/` subdirectories when rendering a view's template (as opposed to partials) (timriley in [#130][pr130])
 - Adjust template lookup cache keys to ensure no false hits (timriley in [#130][pr130])
 
-[Compare v0.6.0...v0.7.0](https://github.com/dry-rb/dry-view/compare/v0.6.0...v0.7.0)
+[Compare v0.6.0...v0.7.0](https://github.com/dry-rb/hanami-view/compare/v0.6.0...v0.7.0)
 
 ## 0.6.0 2019-01-30
 
@@ -50,7 +50,7 @@
 - Attribute decoration in `Part` now achieved via a prepended module, which means it is possible to decorate an attribute provided by an instance method directly on the part class, which wasn't possible with the previous `method_missing`-based approach (timriley in [#110][pr110])
 - `Part` classes can be initialized with missing `name:` and `rendering:` values, which can be useful for unit testing Part methods that don't use any rendering facilities (timriley in [#116][pr116])
 
-[Compare v0.5.4...v0.6.0](https://github.com/dry-rb/dry-view/compare/v0.5.4...v0.6.0)
+[Compare v0.5.4...v0.6.0](https://github.com/dry-rb/hanami-view/compare/v0.5.4...v0.6.0)
 
 ## 0.5.4 2019-01-06
 
@@ -61,7 +61,7 @@ This version was yanked due to the release accidentally containing a batch of br
 - Preserve renderer options when chdir-ing (timriley in [889ac7b](https://github.com/dry-rb/dry-view/commit/889ac7b))
 
 
-[Compare v0.5.3...v0.5.4](https://github.com/dry-rb/dry-view/compare/v0.5.3...v0.5.4)
+[Compare v0.5.3...v0.5.4](https://github.com/dry-rb/hanami-view/compare/v0.5.3...v0.5.4)
 
 ## 0.5.3 2018-10-22
 
@@ -74,7 +74,7 @@ This version was yanked due to the release accidentally containing a batch of br
 
 - Part objects wrap values more transparently, via added `#respond_to_missing?` (liseki in [#63][pr63])
 
-[Compare v0.5.2...v0.5.3](https://github.com/dry-rb/dry-view/compare/v0.5.2...v0.5.3)
+[Compare v0.5.2...v0.5.3](https://github.com/dry-rb/hanami-view/compare/v0.5.2...v0.5.3)
 
 ## 0.5.2 2018-06-13
 
@@ -83,7 +83,7 @@ This version was yanked due to the release accidentally containing a batch of br
 
 - Only truthy view part attributes are decorated (timriley)
 
-[Compare v0.5.1...v0.5.2](https://github.com/dry-rb/dry-view/compare/v0.5.1...v0.5.2)
+[Compare v0.5.1...v0.5.2](https://github.com/dry-rb/hanami-view/compare/v0.5.1...v0.5.2)
 
 ## 0.5.1 2018-02-20
 
@@ -93,7 +93,7 @@ This version was yanked due to the release accidentally containing a batch of br
 - Exposures are inherited from parent view controller classes (GustavoCaso)
 
 
-[Compare v0.5.0...v0.5.1](https://github.com/dry-rb/dry-view/compare/v0.5.0...v0.5.1)
+[Compare v0.5.0...v0.5.1](https://github.com/dry-rb/hanami-view/compare/v0.5.0...v0.5.1)
 
 ## 0.5.0 2018-01-23
 
@@ -104,7 +104,7 @@ This version was yanked due to the release accidentally containing a batch of br
 - Ability to easily create another part instance via `Part#new` (GustavoCaso)
 
 
-[Compare v0.4.0...v0.5.0](https://github.com/dry-rb/dry-view/compare/v0.4.0...v0.5.0)
+[Compare v0.4.0...v0.5.0](https://github.com/dry-rb/hanami-view/compare/v0.4.0...v0.5.0)
 
 ## 0.4.0 2017-11-01
 
@@ -121,7 +121,7 @@ This version was yanked due to the release accidentally containing a batch of br
 - Allow `Dry::View::Part` instances to be created without explicitly passing a `renderer`. This is helpful for unit testing view parts that don't need to render anything (dNitza)
 - Partials can be nested within additional sub-directories by rendering them their relative path as their name, e.g. `render(:"foo/bar")` will look for a `foo/_bar.html.slim` template within the normal template lookup paths (timriley)
 
-[Compare v0.3.0...v0.4.0](https://github.com/dry-rb/dry-view/compare/v0.3.0...v0.4.0)
+[Compare v0.3.0...v0.4.0](https://github.com/dry-rb/hanami-view/compare/v0.3.0...v0.4.0)
 
 ## 0.3.0 2017-05-14
 
@@ -136,7 +136,7 @@ This release reintroduces view parts in a more helpful form. You can provide you
 
 - [BREAKING] Partial rendering in templates requires an explicit `render` method call instead of method_missing behaviour usinig the partial's name (e.g. `<%= render :my_partial %>` instead of `<%= my_partial %>`)
 
-[Compare v0.2.2...v0.3.0](https://github.com/dry-rb/dry-view/compare/v0.2.2...v0.3.0)
+[Compare v0.2.2...v0.3.0](https://github.com/dry-rb/hanami-view/compare/v0.2.2...v0.3.0)
 
 ## 0.2.2 2017-01-31
 
@@ -145,7 +145,7 @@ This release reintroduces view parts in a more helpful form. You can provide you
 
 - Make input passthrough exposures (when there is no block or matching instance metod) return nil instead of raise in the case of a missing input key (timriley)
 
-[Compare v0.2.1...v0.2.2](https://github.com/dry-rb/dry-view/compare/v0.2.1...v0.2.2)
+[Compare v0.2.1...v0.2.2](https://github.com/dry-rb/hanami-view/compare/v0.2.1...v0.2.2)
 
 ## 0.2.1 2017-01-30
 
@@ -155,7 +155,7 @@ This release reintroduces view parts in a more helpful form. You can provide you
 - Exposure blocks now have access to the view controller instance when they're called (timriley)
 
 
-[Compare v0.2.0...v0.2.1](https://github.com/dry-rb/dry-view/compare/v0.2.0...v0.2.1)
+[Compare v0.2.0...v0.2.1](https://github.com/dry-rb/hanami-view/compare/v0.2.0...v0.2.1)
 
 ## 0.2.0 2017-01-30
 
@@ -178,7 +178,7 @@ This release is a major reorientation for dry-view, and it should allow for more
 - [BREAKING] With view parts removed, partials can only be rendered by top-level method calls within templates (timriley)
 - Ruby version 2.1.0 is now the earliest supported version (timriley)
 
-[Compare v0.1.1...v0.2.0](https://github.com/dry-rb/dry-view/compare/v0.1.1...v0.2.0)
+[Compare v0.1.1...v0.2.0](https://github.com/dry-rb/hanami-view/compare/v0.1.1...v0.2.0)
 
 ## 0.1.1 2016-07-07
 
@@ -189,7 +189,7 @@ This release is a major reorientation for dry-view, and it should allow for more
 - Render template content first, before passing that content to the layout. This makes "content_for"-style behaviours possible, where the template stores some data that the layout can then use later (timriley)
 - Configure default template encoding to be UTF-8, fixing some issues with template rendering on deployed sites (gotar)
 
-[Compare v0.1.0...v0.1.1](https://github.com/dry-rb/dry-view/compare/v0.1.0...v0.1.1)
+[Compare v0.1.0...v0.1.1](https://github.com/dry-rb/hanami-view/compare/v0.1.0...v0.1.1)
 
 ## 0.1.0 2016-03-28
 
