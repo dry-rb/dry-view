@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Dry
+module Hanami
   class View
     module Tilt
       module Haml
@@ -10,7 +10,7 @@ module Dry
 
             To ignore this and use another engine for .haml templates, dereigster this adapter before calling your views:
 
-            Dry::View::Tilt.deregister_adatper(:haml)
+            Hanami::View::Tilt.deregister_adatper(:haml)
           ERROR
         end
 

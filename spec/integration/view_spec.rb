@@ -4,7 +4,7 @@
 
 RSpec.describe 'dry-view' do
   let(:view_class) do
-    Class.new(Dry::View) do
+    Class.new(Hanami::View) do
       config.paths = SPEC_ROOT.join('fixtures/templates')
       config.layout = 'app'
       config.template = 'users'
@@ -20,7 +20,7 @@ RSpec.describe 'dry-view' do
   end
 
   let(:context) {
-    Class.new(Dry::View::Context) do
+    Class.new(Hanami::View::Context) do
       def title
         'dry-view rocks!'
       end
@@ -52,9 +52,8 @@ RSpec.describe 'dry-view' do
   it 'renders a view with an alternative format and engine' do
     view = view_class.new
 
-    # FIXME: there should be a "\n\n" before "* Jane", but this is missing due to https://github.com/apotonick/erbse/issues/10
     expect(view.(context: context, format: 'txt').to_s.strip).to eql(
-      "# dry-view rocks!* Jane (jane@doe.org)\n* Joe (joe@doe.org)"
+      "# dry-view rocks!\n\n\n* Jane (jane@doe.org)\n\n* Joe (joe@doe.org)"
     )
   end
 
@@ -90,7 +89,7 @@ RSpec.describe 'dry-view' do
 
   describe 'inheritance' do
     let(:parent_view) do
-      klass = Class.new(Dry::View)
+      klass = Class.new(Hanami::View)
 
       klass.setting :paths, SPEC_ROOT.join('fixtures/templates')
       klass.setting :layout, 'app'

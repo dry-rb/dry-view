@@ -4,7 +4,7 @@ require 'dry/equalizer'
 require_relative 'decorated_attributes'
 require_relative 'render_environment_missing'
 
-module Dry
+module Hanami
   class View
     # Decorates an exposure value and provides a place to encapsulate
     # view-specific behavior alongside your application's domain objects.
@@ -136,7 +136,7 @@ module Dry
       # @param scope_name [Symbol, nil] scope name, used by the scope builder to determine the scope class
       # @param locals [Hash<Symbol, Object>] other locals to provide the partial
       #
-      # @return [Dry::View::Scope] scope
+      # @return [Hanami::View::Scope] scope
       #
       # @api public
       def _scope(scope_name = nil, **locals)
