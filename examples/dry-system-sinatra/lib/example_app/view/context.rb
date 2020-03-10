@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require_relative '../view'
-require 'hanami/view/context'
+require_relative "../view"
+require "hanami/view/context"
 
 module ExampleApp
   class View

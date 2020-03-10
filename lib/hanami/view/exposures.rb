@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'tsort'
-require 'dry/equalizer'
-require_relative 'exposure'
+require "tsort"
+require "dry/equalizer"
+require_relative "exposure"
 
 module Hanami
   class View
@@ -46,8 +46,9 @@ module Hanami
       end
 
       def call(input)
+        # rubocop:disable Style/MultilineBlockChain
         tsort.each_with_object({}) { |name, memo|
-          next unless exposure = self[name]
+          next unless (exposure = self[name])
 
           value = exposure.(input, memo)
           value = yield(value, exposure) if block_given?
@@ -56,6 +57,7 @@ module Hanami
         }.each_with_object({}) { |(name, value), memo|
           memo[name] = value unless self[name].private?
         }
+        # rubocop:enable Style/MultilineBlockChain
       end
 
       private
