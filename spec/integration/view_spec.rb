@@ -4,7 +4,7 @@
 
 RSpec.describe 'dry-view' do
   let(:view_class) do
-    Class.new(Dry::View) do
+    Class.new(Hanami::View) do
       config.paths = SPEC_ROOT.join('fixtures/templates')
       config.layout = 'app'
       config.template = 'users'
@@ -20,7 +20,7 @@ RSpec.describe 'dry-view' do
   end
 
   let(:context) {
-    Class.new(Dry::View::Context) do
+    Class.new(Hanami::View::Context) do
       def title
         'dry-view rocks!'
       end
@@ -90,7 +90,7 @@ RSpec.describe 'dry-view' do
 
   describe 'inheritance' do
     let(:parent_view) do
-      klass = Class.new(Dry::View)
+      klass = Class.new(Hanami::View)
 
       klass.setting :paths, SPEC_ROOT.join('fixtures/templates')
       klass.setting :layout, 'app'
