@@ -1,3 +1,3 @@
 # frozen_string_literal: true
 
-require 'hanami/view'
+require "hanami/view"

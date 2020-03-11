@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
-require_relative 'support/coverage'
+require_relative "support/coverage"
 
 begin
-  require 'pry-byebug'
+  require "pry-byebug"
 rescue LoadError; end
 SPEC_ROOT = Pathname(__FILE__).dirname
-FIXTURES_PATH = SPEC_ROOT.join('fixtures')
+FIXTURES_PATH = SPEC_ROOT.join("fixtures")
 
-require 'slim'
-require 'hanami/view'
+require "slim"
+require "hanami/view"
 
 module Test
   def self.remove_constants
@@ -34,7 +34,7 @@ RSpec.configure do |config|
       Hanami::View::Path,
       Hanami::View::Renderer,
       Hanami::View::ScopeBuilder,
-      Hanami::View::Tilt,
+      Hanami::View::Tilt
     ].each do |klass|
       klass.cache.clear
     end
