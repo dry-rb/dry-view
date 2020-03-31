@@ -27,7 +27,7 @@ end
 ### Rendering environment
 
 - **scope**: a [scope class](docs::scopes) to use when rendering the view's template
-- **default_context**: a [context object](docs::context) to during rendering (if none is provided via the `context:` option when `#call`-ing the view)
+- **default_context**: a [context object](docs::context) to use during rendering (if none is provided via the `context:` option when `#call`-ing the view)
 
 ### Template engine
 
