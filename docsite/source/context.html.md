@@ -24,7 +24,7 @@ end
 
 ## Injecting dependencies
 
-`Dry::View::Context` is designed to allow dependencies to be injected into your subclasses. To do this, accept your dependencies as keyword arguments to `#initialize`, and pass every other keyword argument through to `super`:
+`Dry::View::Context` is designed to allow dependencies to be injected into your subclasses. To do this, accept your dependencies as keyword arguments to `#initialize`, and pass all arguments through to `super`:
 
 ```ruby
 class MyContext < Dry::View::Context
@@ -32,7 +32,7 @@ class MyContext < Dry::View::Context
 
   def initialize(assets:, **args)
     @assets = assets
-    super(**args)
+    super
   end
 
   def asset_path(asset_name)
