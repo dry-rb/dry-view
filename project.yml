@@ -11,7 +11,6 @@ gemspec:
   runtime_dependencies:
     - [concurrent-ruby, "~> 1.0"]
     - [dry-configurable, "~> 0.1"]
-    - [dry-core, "~> 0.2"]
-    - [dry-equalizer, "~> 0.2"]
+    - [dry-core, "~> 0.5", ">= 0.5"]
     - [dry-inflector, "~> 0.1"]
     - [tilt, "~> 2.0", ">= 2.0.6"]
