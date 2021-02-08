@@ -1,4 +1,11 @@
 ---
+- version: 0.7.1
+  date: '2021-02-08'
+  changed:
+  - Compatible with Ruby 2.7/3.0 keyword argument handling (@flash-gordon in 4e7cefb)
+  - dry-equalizer dependency dropped in favor of dry-core (@solnic)
+  fixed:
+  - 'Template not found errors properly show configured paths (@adam12 in #144)'
 - version: 0.7.0
   date: '2019-03-06'
   added:
