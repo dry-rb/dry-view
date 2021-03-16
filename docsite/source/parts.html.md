@@ -33,6 +33,8 @@ So for an exposure named `:articles`, the `Parts::Article` class will be looked 
 
 If a matching part class cannot be found, the standard `Dry::View::Part` class will be used.
 
+If your application does not use class autoloading, you should explicitly `require` your part files to ensure the classes are available.
+
 ## Accessing the decorated value
 
 When using a part within a template, or when defining your own part methods, you can call the decorated value's methods and the part object will pass them through (via `#method_missing`).
