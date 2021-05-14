@@ -53,6 +53,7 @@ class ArticleView < Dry::View
 
   def initialize(article_repo:)
     @article_repo = article_repo
+    super
   end
 
   expose :article do |slug:|
