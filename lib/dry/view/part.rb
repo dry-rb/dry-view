@@ -198,11 +198,15 @@ module Dry
 
       # Handles missing methods. If the `_value` responds to the method, then
       # the method will be sent to the value.
+      # If the context responds to the method, then the method will be sent to
+      # the context
       def method_missing(name, *args, &block)
         if _value.respond_to?(name)
           _value.public_send(name, *args, &block)
         elsif CONVENIENCE_METHODS.include?(name)
           __send__(:"_#{name}", *args, &block)
+        elsif _context.respond_to?(name)
+          _context.public_send(name, *args, &block)
         else
           super
         end

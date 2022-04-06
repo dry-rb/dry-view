@@ -12,11 +12,12 @@ end
 RSpec.describe Dry::View::Part do
   let(:name) { :user }
   let(:value) { double(:value) }
+  let(:context) { Dry::View::Context.new }
   let(:render_env) {
     Dry::View::RenderEnvironment.new(
       renderer: renderer,
       inflector: Dry::Inflector.new,
-      context: Dry::View::Context.new,
+      context: context,
       scope_builder: Dry::View::ScopeBuilder.new,
       part_builder: Dry::View::ScopeBuilder.new
     )
@@ -79,23 +80,40 @@ RSpec.describe Dry::View::Part do
     end
 
     describe "#method_missing" do
-      let(:value) { double(greeting: "hello from value") }
+        let(:value) { double(greeting: "hello from value") }
+        let(:context) do
+          Class.new(Dry::View::Context) do
+            def greeting_from_context
+              "hello from context"
+            end
+          end.new
+        end 
 
-      it "calls a matching method on the value" do
-        expect(part.greeting).to eq "hello from value"
+        it "calls a matching method on the value" do
+          expect(part.greeting).to eq "hello from value"
+        end
+
+        it "forwards all arguments to the method" do
+          blk = -> {}
+          part.greeting "args", &blk
+
+          expect(value).to have_received(:greeting).with("args", &blk)
+        end
+
+        it "calls a matching method on the context" do
+          expect(part.greeting_from_context).to eq "hello from context"
+        end
+
+        # it "forwards all arguments to the method" do
+        #  blk = -> {}
+        # part.greeting_from_context "args", &blk
+        # expect(_context).to have_received(:greeting_from_context).with("args", &blk)
+        # nd
+
+        it "raises an error if no method matches" do
+          expect { part.farewell }.to raise_error(NoMethodError)
+        end
       end
-
-      it "forwards all arguments to the method" do
-        blk = -> {}
-        part.greeting "args", &blk
-
-        expect(value).to have_received(:greeting).with("args", &blk)
-      end
-
-      it "raises an error if no method matches" do
-        expect { part.farewell }.to raise_error(NoMethodError)
-      end
-    end
 
     describe "#respond_to?" do
       let(:value) { double(greeting: "hello from value") }
