@@ -89,9 +89,9 @@ RSpec.describe "dry-view" do
     let(:parent_view) do
       klass = Class.new(Dry::View)
 
-      klass.setting :paths, SPEC_ROOT.join("fixtures/templates")
-      klass.setting :layout, "app"
-      klass.setting :formats, html: :slim
+      klass.setting :paths, default: SPEC_ROOT.join("fixtures/templates")
+      klass.setting :layout, default: "app"
+      klass.setting :formats, default: { html: :slim }
 
       klass
     end
