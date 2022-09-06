@@ -1,4 +1,11 @@
 ---
+- version: unreleased
+  summary: 
+  date: 
+  fixed:
+  - 'Fix dry-configurable warnings (via #153) (@olegykz)'
+  added: 
+  changed: 
 - version: 0.7.1
   date: '2021-02-08'
   changed:
