@@ -22,16 +22,16 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.metadata["allowed_push_host"] = "https://rubygems.org"
-  spec.metadata["changelog_uri"]     = "https://github.com/dry-rb/dry-view/blob/master/CHANGELOG.md"
+  spec.metadata["changelog_uri"]     = "https://github.com/dry-rb/dry-view/blob/main/CHANGELOG.md"
   spec.metadata["source_code_uri"]   = "https://github.com/dry-rb/dry-view"
   spec.metadata["bug_tracker_uri"]   = "https://github.com/dry-rb/dry-view/issues"
 
-  spec.required_ruby_version = ">= 2.7.0"
+  spec.required_ruby_version = ">= 3.0.0"
 
   # to update dependencies edit project.yml
   spec.add_runtime_dependency "concurrent-ruby", "~> 1.0"
   spec.add_runtime_dependency "dry-configurable", "~> 0.1"
-  spec.add_runtime_dependency "dry-core", "~> 0.5", ">= 0.5"
+  spec.add_runtime_dependency "dry-core", "~> 0.9", ">= 0.9"
   spec.add_runtime_dependency "dry-inflector", "~> 0.1"
   spec.add_runtime_dependency "tilt", "~> 2.0", ">= 2.0.6"
 
