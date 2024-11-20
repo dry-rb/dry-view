@@ -1,11 +1,10 @@
 ---
-- version: unreleased
-  summary: 
-  date: 
+- version: 0.8.0
+  date: '2024-11-20'
   fixed:
-  - 'Fix dry-configurable warnings (via #153) (@olegykz)'
-  added: 
+  - 'Fix dry-configurable warnings (@olegykz in #153)'
   changed: 
+  - 'Require hamlit instead of hamlit/block (@olegykz in #155)'
 - version: 0.7.1
   date: '2021-02-08'
   changed:
