@@ -14,6 +14,8 @@ sections:
   - testing
 ---
 
+**Development of dry-view has ceased. Please switch to [hanami-view](https://github.com/hanami/view) for a compatible replacement.**
+
 dry-view is a complete, standalone view rendering system that gives you everything you need to write well-factored view code.
 
 Use dry-view if:
