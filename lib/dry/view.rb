@@ -508,7 +508,7 @@ module Dry
 
     # @api private
     def layout?
-      !!config.layout # rubocop:disable Style/DoubleNegation
+      !!config.layout
     end
   end
 end

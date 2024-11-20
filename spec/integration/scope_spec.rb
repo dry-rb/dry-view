@@ -43,7 +43,7 @@ RSpec.describe "Scopes" do
     module Test::Scopes
       class Greeting < Dry::View::Scope
         def greeting
-          _locals[:greeting].upcase + "!"
+          "#{_locals[:greeting].upcase}!"
         end
       end
     end
@@ -62,7 +62,7 @@ RSpec.describe "Scopes" do
     module Test::Scopes
       class Greeting < Dry::View::Scope
         def greeting
-          _locals[:greeting].upcase + "!"
+          "#{_locals[:greeting].upcase}!"
         end
       end
     end
@@ -89,7 +89,7 @@ RSpec.describe "Scopes" do
     module Test::Scopes
       class Greeting < Dry::View::Scope
         def greeting
-          _locals[:greeting].upcase + "!"
+          "#{_locals[:greeting].upcase}!"
         end
       end
     end
@@ -108,7 +108,7 @@ RSpec.describe "Scopes" do
     module Test::Scopes
       class Greeting < Dry::View::Scope
         def greeting
-          _locals.fetch(:greeting) { "Howdy" }
+          _locals.fetch(:greeting, "Howdy")
         end
       end
     end
@@ -135,7 +135,7 @@ RSpec.describe "Scopes" do
     module Test::Scopes
       class Greeting < Dry::View::Scope
         def greeting
-          _locals[:greeting] + "!"
+          "#{_locals[:greeting]}!"
         end
       end
     end

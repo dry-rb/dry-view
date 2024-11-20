@@ -71,9 +71,8 @@ module Dry
       #
       # @api public
       def initialize(
-        render_env: RenderEnvironmentMissing.new,
-        name: self.class.part_name(render_env.inflector),
-        value:
+        value:, render_env: RenderEnvironmentMissing.new,
+        name: self.class.part_name(render_env.inflector)
       )
         @_name = name
         @_value = value
@@ -126,11 +125,9 @@ module Dry
       # @return [String] rendered partial
       #
       # @api public
-      # rubocop:disable Naming/UncommunicativeMethodParamName
       def _render(partial_name, as: _name, **locals, &block)
         _render_env.partial(partial_name, _render_env.scope({as => self}.merge(locals)), &block)
       end
-      # rubocop:enable Naming/UncommunicativeMethodParamName
 
       # Builds a new scope with the part included in its locals.
       #

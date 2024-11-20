@@ -46,7 +46,6 @@ module Dry
       end
 
       def call(input)
-        # rubocop:disable Style/MultilineBlockChain
         tsort.each_with_object({}) { |name, memo|
           next unless (exposure = self[name])
 

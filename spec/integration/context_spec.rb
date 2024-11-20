@@ -15,6 +15,7 @@ RSpec.describe "Context" do
 
       class Context < Dry::View::Context
         attr_reader :assets
+
         decorate :assets
 
         def initialize(assets:, **options)

@@ -9,7 +9,7 @@ RSpec.describe "Testing / parts" do
   specify "Parts can be unit tested without name or rendering (for testing methods that don't require them)" do
     part_class = Class.new(Dry::View::Part) do
       def breaking_news_title
-        title + "!"
+        "#{title}!"
       end
     end
 

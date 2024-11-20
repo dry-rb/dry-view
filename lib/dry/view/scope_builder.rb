@@ -76,7 +76,7 @@ module Dry
         # Give autoloaders a chance to act
         begin
           klass = namespace.const_get(name)
-        rescue NameError # rubocop:disable Lint/HandleExceptions
+        rescue NameError # rubocop:disable Lint/SuppressedException
         end
 
         if !klass && namespace.const_defined?(name, false)

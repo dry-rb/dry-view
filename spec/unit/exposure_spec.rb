@@ -116,7 +116,7 @@ RSpec.describe Dry::View::Exposure do
 
   describe "#dependency_names" do
     context "proc provided" do
-      let(:proc) { -> input, foo, bar { "hi" } } # rubocop:disable Lint/UnusedBlockArgument
+      let(:proc) { -> input, foo, bar { "hi" } }
 
       it "returns an array of exposure dependencies derived from the proc's argument names" do
         expect(exposure.dependency_names).to eql [:input, :foo, :bar]

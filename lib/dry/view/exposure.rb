@@ -50,15 +50,15 @@ module Dry
       end
 
       def for_layout?
-        options.fetch(:layout) { false }
+        options.fetch(:layout, false)
       end
 
       def decorate?
-        options.fetch(:decorate) { true }
+        options.fetch(:decorate, true)
       end
 
       def private?
-        options.fetch(:private) { false }
+        options.fetch(:private, false)
       end
 
       def default_value
@@ -84,12 +84,10 @@ module Dry
           else
             object.instance_exec(*args, &proc)
           end
+        elsif proc.is_a?(Method)
+          proc.(*args, **keywords)
         else
-          if proc.is_a?(Method)
-            proc.(*args, **keywords)
-          else
-            object.instance_exec(*args, **keywords, &proc)
-          end
+          object.instance_exec(*args, **keywords, &proc)
         end
       end
 

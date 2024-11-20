@@ -108,7 +108,6 @@ module Dry
         end
       end
 
-      # rubocop:disable Metrics/PerceivedComplexity
       def resolve_part_class(name:, fallback_class:)
         return fallback_class unless namespace
 
@@ -117,7 +116,7 @@ module Dry
         # Give autoloaders a chance to act
         begin
           klass = namespace.const_get(name)
-        rescue NameError # rubocop:disable Lint/HandleExceptions
+        rescue NameError # rubocop:disable Lint/SuppressedException
         end
 
         if !klass && namespace.const_defined?(name, false)
@@ -130,7 +129,6 @@ module Dry
           fallback_class
         end
       end
-      # rubocop:enable Metrics/PerceivedComplexity
 
       def inflector
         render_env.inflector
