@@ -6,10 +6,6 @@ eval_gemfile "Gemfile.devtools"
 
 gemspec
 
-group :tools do
-  gem "hotch"
-end
-
 group :test do
   gem "rack", ">= 2.0.6"
 
