@@ -34,6 +34,27 @@ module Dry
   #
   # @api public
   class View
+    class Config < Dry::Configurable::Config
+      # When the superclass returns a value, it only caches it to _values if it
+      # is considered "cloneable". The high frequency in which Dry::View calls
+      # this method, however, has considerable performance implications and, as
+      # such, as values are cached
+      #
+      # @see Dry::Configurable::Config#[]
+      #
+      # @param [String,Symbol] name
+      #
+      # @return Config value
+      def [](name)
+        name = name.to_sym
+        return _values[name] if _values.key?(name)
+
+        super
+        _values[name] = _settings[name].to_value unless _values.key?(name)
+        _values[name]
+      end
+    end
+
     # @api private
     DEFAULT_RENDERER_OPTIONS = {default_encoding: "utf-8"}.freeze
 
@@ -41,7 +62,7 @@ module Dry
 
     extend Dry::Core::Cache
 
-    extend Dry::Configurable
+    extend Dry::Configurable(config_class: Dry::View::Config)
 
     # @!group Configuration
 
