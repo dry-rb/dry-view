@@ -34,6 +34,10 @@ module Dry
   #
   # @api public
   class View
+    class Config < Dry::Configurable::Config
+      include Dry::Equalizer(:values, immutable: true)
+    end
+
     # @api private
     DEFAULT_RENDERER_OPTIONS = {default_encoding: "utf-8"}.freeze
 
@@ -41,7 +45,7 @@ module Dry
 
     extend Dry::Core::Cache
 
-    extend Dry::Configurable
+    extend Dry::Configurable(config_class: Dry::View::Config)
 
     # @!group Configuration
 
